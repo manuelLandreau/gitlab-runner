@@ -8,4 +8,4 @@ COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
 # Use the custom entrypoint script
-CMD ["sh /entrypoint.sh"]
+CMD ["entrypoint.sh"]
