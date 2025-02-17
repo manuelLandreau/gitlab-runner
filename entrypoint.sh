@@ -1,5 +1,7 @@
 #!/bin/bash
 
+usermod -aG docker gitlab-runner
+
 while [ $# -gt 0 ]; do
   case "$1" in
     --url=*)
@@ -50,6 +52,7 @@ then
       --run-untagged ${RUN_UNTAGGED} \
       --locked ${LOCKED} \
       --access-level ${ACCESS_LEVEL}
+      --docker-privileged
   else
     gitlab-runner register \
       --non-interactive \
@@ -62,10 +65,9 @@ then
       --run-untagged ${RUN_UNTAGGED} \
       --locked ${LOCKED} \
       --access-level ${ACCESS_LEVEL}
+      --docker-privileged
   fi
 fi
-
-sed -i 's/\[runners.docker\]/[runners.docker]\n  privileged = true/' /etc/gitlab-runner/config.toml
 
 sed -i '/^\[runners\]/a \
     [runners.environment] \
@@ -73,9 +75,8 @@ sed -i '/^\[runners\]/a \
     DOCKER_DRIVER = "overlay2"' /etc/gitlab-runner/config.toml
 
 echo "Starting GitLab Runner..."
-gitlab-runner run &  # Run in the background
+gitlab-runner run --docker-privileged &  # Run in the background
 
-usermod -aG docker gitlab-runner
 
 # Dummy HTTP server to prevent Render from shutting down
 echo "Starting dummy HTTP server..."
