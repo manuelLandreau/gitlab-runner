@@ -37,42 +37,16 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-# Register the gitlab-runner
-if ! grep -q ${URL} /etc/gitlab-runner/config.toml;
-then
-  if [ -z "${TAGS}" ]; # tag-list is empty
-  then
-    gitlab-runner register \
-      --non-interactive \
-      --url ${URL} \
-      --registration-token ${TOKEN} \
-      --executor "shell" \
-      --docker-image ${DOCKER_IMAGE} \
-      --description ${DESCRIPTION} \
-      --run-untagged ${RUN_UNTAGGED} \
-      --locked ${LOCKED} \
-      --access-level ${ACCESS_LEVEL}
-      --docker-privileged
-  else
-    gitlab-runner register \
-      --non-interactive \
-      --url ${URL} \
-      --registration-token ${TOKEN} \
-      --executor "shell" \
-      --docker-image ${DOCKER_IMAGE} \
-      --description ${DESCRIPTION} \
-      --tag-list ${TAGS} \
-      --run-untagged ${RUN_UNTAGGED} \
-      --locked ${LOCKED} \
-      --access-level ${ACCESS_LEVEL}
-      --docker-privileged
-  fi
-fi
 
-sed -i '/^\[runners\]/a \
-    [runners.environment] \
-    DOCKER_HOST = "tcp://docker:2375" \
-    DOCKER_DRIVER = "overlay2"' /etc/gitlab-runner/config.toml
+gitlab-runner register \
+  --non-interactive \
+  --url ${URL} \
+  --registration-token ${TOKEN} \
+  --executor docker \
+  --docker-image "docker:24.0.5" \
+  --description ${DESCRIPTION} \
+  --tag-list ${TAGS} \
+  --docker-privileged
 
 echo "Starting GitLab Runner..."
 gitlab-runner run --docker-privileged &  # Run in the background
