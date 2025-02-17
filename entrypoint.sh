@@ -44,7 +44,7 @@ then
       --non-interactive \
       --url ${URL} \
       --registration-token ${TOKEN} \
-      --executor "docker" \
+      --executor "shell" \
       --docker-image ${DOCKER_IMAGE} \
       --description ${DESCRIPTION} \
       --run-untagged ${RUN_UNTAGGED} \
@@ -55,7 +55,7 @@ then
       --non-interactive \
       --url ${URL} \
       --registration-token ${TOKEN} \
-      --executor "docker" \
+      --executor "shell" \
       --docker-image ${DOCKER_IMAGE} \
       --description ${DESCRIPTION} \
       --tag-list ${TAGS} \
