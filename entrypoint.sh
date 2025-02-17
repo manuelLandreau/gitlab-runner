@@ -2,6 +2,9 @@
 
 usermod -aG docker gitlab-runner
 
+# Ensure Docker daemon runs properly
+RUN service docker start || true
+
 while [ $# -gt 0 ]; do
   case "$1" in
     --url=*)
@@ -38,22 +41,19 @@ while [ $# -gt 0 ]; do
 done
 
 
-gitlab-runner register \
-  --non-interactive \
-  --url ${URL} \
-  --registration-token ${TOKEN} \
-  --executor docker \
-  --docker-image "docker:24.0.5" \
-  --description ${DESCRIPTION} \
-  --tag-list ${TAGS} \
-  --docker-privileged
 
-echo "Starting GitLab Runner..."
-gitlab-runner run &  # Run in the background
+# Register the GitLab Runner with privileged mode
+gitlab-runner register --non-interactive \
+  --url "https://gitlab.com/" \
+  --registration-token "${TOKEN}" \
+  --tag-list ${TAGS} \
+  --executor "docker" \
+  --docker-image "docker:latest" \
+  --docker-privileged
 
 cat /etc/gitlab-runner/config.toml
 
 
 # Dummy HTTP server to prevent Render from shutting down
-echo "Starting dummy HTTP server..."
-exec python3 -m http.server 8080
+# echo "Starting dummy HTTP server..."
+# exec python3 -m http.server 8080
