@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y docker.io
 # Register the GitLab Runner with privileged mode
 RUN gitlab-runner register --non-interactive \
   --url "https://gitlab.com/" \
-  --registration-token "$GITLAB_REGISTRATION_TOKEN" \
+  --registration-token "$TOKEN" \
   --executor "docker" \
   --docker-image "docker:latest" \
   --docker-privileged
