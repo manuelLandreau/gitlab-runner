@@ -1,8 +1,14 @@
 FROM gitlab/gitlab-runner
 LABEL maintainer="Johann Lange <johannlange@yahoo.de>"
 
-COPY entrypoint.sh /entrypoint.sh
+# Set working directory
+WORKDIR /app
 
-RUN chmod +x /entrypoint.sh
+# Copy the entrypoint script into the container
+COPY entrypoint.sh /app/entrypoint.sh
 
-CMD ["./entrypoint.sh"]
+# Ensure the script has execution permissions
+RUN chmod +x /app/entrypoint.sh
+
+# Use the custom entrypoint script
+CMD ["/app/entrypoint.sh"]
