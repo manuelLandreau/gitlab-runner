@@ -1,7 +1,8 @@
 FROM gitlab/gitlab-runner
 LABEL maintainer="Johann Lange <johannlange@yahoo.de>"
 
-COPY register.sh /register.sh
+COPY entrypoint.sh /entrypoint.sh
 
-# Register the gitlab-runner if not exist
-CMD ./register.sh
+RUN chmod +x /entrypoint.sh
+
+CMD ["/entrypoint.sh"]
