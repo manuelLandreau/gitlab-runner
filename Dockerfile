@@ -1,18 +1,7 @@
 FROM gitlab/gitlab-runner
 LABEL maintainer="Johann Lange <johannlange@yahoo.de>"
 
-COPY register.bash /register.bash
+COPY register.sh /register.sh
 
 # Register the gitlab-runner if not exist
-ENTRYPOINT /register.bash \
-  --url=$URL \
-  --registration-token=$TOKEN \
-  --docker-image=DOCKER_IMAGE \
-  --description=$DESCRIPTION \
-  --tag-list=$TAGS \
-  --run-untagged=$RUN_UNTAGGED \
-  --locked=$LOCKED \
-  --access-level=$ACCESS_LEVEL
-
-
-EXPOSE 80 443
+CMD ./register.sh
