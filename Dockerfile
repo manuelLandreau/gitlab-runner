@@ -3,8 +3,6 @@ LABEL maintainer="Johann Lange <johannlange@yahoo.de>"
 
 COPY register.bash /register.bash
 
-EXPOSE 80 443
-
 # Register the gitlab-runner if not exist
 ENTRYPOINT /register.bash \
   --url=$URL \
@@ -15,3 +13,6 @@ ENTRYPOINT /register.bash \
   --run-untagged=$RUN_UNTAGGED \
   --locked=$LOCKED \
   --access-level=$ACCESS_LEVEL
+
+
+EXPOSE 80 443
