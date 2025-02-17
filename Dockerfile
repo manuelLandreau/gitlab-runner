@@ -7,5 +7,3 @@ COPY entrypoint.sh /entrypoint.sh
 # Ensure the script has execution permissions
 RUN chmod +x /entrypoint.sh
 
-# Use the custom entrypoint script
-CMD ["entrypoint.sh"]
