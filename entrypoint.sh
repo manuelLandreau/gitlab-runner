@@ -49,7 +49,9 @@ gitlab-runner register \
   --docker-privileged
 
 echo "Starting GitLab Runner..."
-gitlab-runner run --docker-privileged &  # Run in the background
+gitlab-runner run &  # Run in the background
+
+cat /etc/gitlab-runner/config.toml
 
 
 # Dummy HTTP server to prevent Render from shutting down
