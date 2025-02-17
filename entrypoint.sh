@@ -47,7 +47,7 @@ gitlab-runner register --non-interactive \
   --url "https://gitlab.com/" \
   --registration-token "${TOKEN}" \
   --tag-list ${TAGS} \
-  --executor "docker" \
+  --executor "shell" \
   --docker-image "docker:latest" \
   --docker-privileged
 
