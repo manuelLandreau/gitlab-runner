@@ -65,5 +65,9 @@ then
   fi
 fi
 
-# Run the runner
-gitlab-runner run
+echo "Starting GitLab Runner..."
+gitlab-runner run &  # Run in the background
+
+# Dummy HTTP server to prevent Render from shutting down
+echo "Starting dummy HTTP server..."
+exec python3 -m http.server 8080
