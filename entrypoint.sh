@@ -68,6 +68,8 @@ fi
 echo "Starting GitLab Runner..."
 gitlab-runner run &  # Run in the background
 
+usermod -aG docker gitlab-runner
+
 # Dummy HTTP server to prevent Render from shutting down
 echo "Starting dummy HTTP server..."
 exec python3 -m http.server 8080
