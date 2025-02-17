@@ -65,6 +65,8 @@ then
   fi
 fi
 
+sed -i 's/\[runners.docker\]/[runners.docker]\n  privileged = true/' /etc/gitlab-runner/config.toml
+
 sed -i '/^\[runners\]/a \
     [runners.environment] \
     DOCKER_HOST = "tcp://docker:2375" \
