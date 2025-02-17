@@ -65,6 +65,11 @@ then
   fi
 fi
 
+sed -i '/^\[runners\]/a \
+    [runners.environment] \
+    DOCKER_HOST = "tcp://docker:2375" \
+    DOCKER_DRIVER = "overlay2"' /etc/gitlab-runner/config.toml
+
 echo "Starting GitLab Runner..."
 gitlab-runner run &  # Run in the background
 
