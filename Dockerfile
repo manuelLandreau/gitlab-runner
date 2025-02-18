@@ -28,7 +28,8 @@ RUN gitlab-runner register \
   --description "My Docker Runner" \
   --docker-image "docker:24.0.6" \
   --docker-privileged \
-  --docker-volumes "/certs/client"
+  --docker-volumes "/certs/client" \
+  --docker-volumes /var/run/docker.sock:/var/run/docker.sock
 
 RUN gitlab-runner run &
 
