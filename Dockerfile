@@ -36,8 +36,8 @@ gitlab-runner register \
   --description "Docker Runner with Render.com support" \
   --tag-list "docker,render,dind,shared" \
   --run-untagged="true" \
-  --locked="false" & \n\
-exec gitlab-runner", "run", "--user=gitlab-runner", "--working-directory=/home/gitlab-runner" &' > /entrypoint.sh && \
+  --locked="false"' > /entrypoint.sh && \
+  exec gitlab-runner run --user=gitlab-runner --working-directory=/home/gitlab-runner && \
   chmod +x /entrypoint.sh
 
 # Example config.toml content
