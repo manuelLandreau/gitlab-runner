@@ -37,7 +37,7 @@ gitlab-runner register \
   --tag-list "docker,render,dind,shared" \
   --run-untagged="true" \
   --locked="false"' > /entrypoint.sh && \
-  exec gitlab-runner run --user=gitlab-runner --working-directory=/home/gitlab-runner && \
+
   chmod +x /entrypoint.sh
 
 # Example config.toml content
@@ -61,7 +61,8 @@ check_interval = 0 \n\
     shm_size = 0 \n\
   [runners.cache] \n\
     [runners.cache.s3] \n\
-    [runners.cache.gcs]' > /etc/gitlab-runner/config.toml
+    [runners.cache.gcs]' > /etc/gitlab-runner/config.toml && \
+    exec gitlab-runner run --user=gitlab-runner --working-directory=/home/gitlab-runner
 
 # Set entrypoint
 ENTRYPOINT ["/entrypoint.sh"]
