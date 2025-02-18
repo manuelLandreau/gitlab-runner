@@ -5,7 +5,7 @@ ARG TOKEN
 # Install required packages
 RUN apt-get update && apt-get install -y \
     curl \
-    python \
+    python3 \
     jq \
     && rm -rf /var/lib/apt/lists/*
 
