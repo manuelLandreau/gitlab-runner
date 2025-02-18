@@ -19,6 +19,8 @@ RUN usermod -aG docker gitlab-runner
 # Create directory for GitLab Runner configuration
 RUN mkdir -p /etc/gitlab-runner
 
+COPY entrypoint.sh /entrypoint.sh
+
 # Create registration script
 RUN gitlab-runner register \
   --non-interactive \
