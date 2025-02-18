@@ -1,10 +1,6 @@
 #!/usr/bin/env sh
 set -e
 
-groupadd docker
-gpasswd -a gitlab-runner docker
-service docker restart
-
 # Register the runner (non-interactive)
 gitlab-runner register --non-interactive \
     --url "https://gitlab.com" \
@@ -18,7 +14,7 @@ gitlab-runner register --non-interactive \
     --locked="false"
 
 # Start the GitLab Runner service
-gitlab-runner run --user=gitlab-runner &
+gitlab-runner run &
 
 
 # Dummy HTTP server to prevent Render from shutting down
