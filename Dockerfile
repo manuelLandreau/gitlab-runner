@@ -30,4 +30,5 @@ RUN gitlab-runner register \
   --docker-privileged \
   --docker-volumes "/runner/services/docker"
 
-RUN gitlab-runner run &
+# Default command
+CMD ["/entrypoint.sh"]
