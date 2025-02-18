@@ -37,7 +37,7 @@ gitlab-runner register \
   --tag-list "docker,render,dind,shared" \
   --run-untagged="true" \
   --locked="false" & \n\
-exec python3 -m http.server 8080' > /entrypoint.sh && \
+exec gitlab-runner", "run", "--user=gitlab-runner", "--working-directory=/home/gitlab-runner" &' > /entrypoint.sh && \
   chmod +x /entrypoint.sh
 
 # Example config.toml content
@@ -67,4 +67,4 @@ check_interval = 0 \n\
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Default command
-CMD ["gitlab-runner", "run", "--user=gitlab-runner", "--working-directory=/home/gitlab-runner"]
+CMD ["python3", "-m", "http.server", "8080"]
