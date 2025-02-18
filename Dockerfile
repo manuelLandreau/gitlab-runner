@@ -5,6 +5,7 @@ ARG TOKEN
 # Install required packages
 RUN apt-get update && apt-get install -y \
     curl \
+    python \
     jq \
     && rm -rf /var/lib/apt/lists/*
 
@@ -35,7 +36,9 @@ gitlab-runner register \
   --description "Docker Runner with Render.com support" \
   --tag-list "docker,render,dind,shared" \
   --run-untagged="true" \
-  --locked="false"' > /entrypoint.sh && \
+  --locked="false"
+
+exec python3 -m http.server 8080' > /entrypoint.sh && \
   chmod +x /entrypoint.sh
 
 # Example config.toml content
