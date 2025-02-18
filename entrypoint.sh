@@ -2,7 +2,7 @@
 set -e
 
 # 1) Start the Docker daemon in the background
-dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 &
+# dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 &
 
 # 2) Wait for Docker to become available
 echo "Starting Docker daemon..."
