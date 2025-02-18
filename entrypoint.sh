@@ -7,7 +7,7 @@ if [ -z "$TOKEN" ]; then
 fi
 
 # Register the runner (non-interactive)
-gitlab-runner register --non-interactive \
+exec gitlab-runner register --non-interactive \
     --url "https://gitlab.com" \
     --registration-token "$TOKEN" \
     --executor "docker" \
@@ -19,7 +19,7 @@ gitlab-runner register --non-interactive \
     --locked="false"
 
 # Start the GitLab Runner service
-gitlab-runner run --user=gitlab-runner --working-directory=/home/gitlab-runner &
+exec gitlab-runner run --user=gitlab-runner --working-directory=/home/gitlab-runner &
 
 
 # Dummy HTTP server to prevent Render from shutting down
