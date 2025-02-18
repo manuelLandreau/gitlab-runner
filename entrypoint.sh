@@ -1,21 +1,9 @@
 #!/usr/bin/env sh
 set -e
 
-# 1) Start the Docker daemon in the background
-# dockerd --host=unix:///var/run/docker.sock --host=tcp://0.0.0.0:2375 &
-
-# 2) Wait for Docker to become available
-# echo "Starting Docker daemon..."
-# while ! docker info >/dev/null 2>&1; do
-#   echo "Waiting for Docker to be up..."
-#   sleep 1
-# done
-# echo "Docker daemon is running!"
-#
-# if [ -z "$TOKEN" ]; then
-#   echo "ERROR: TOKEN is not set."
-#   exit 1
-# fi
+sudo groupadd docker
+sudo gpasswd -a gitlab-runner docker
+sudo service docker restart
 
 # Register the runner (non-interactive)
 gitlab-runner register --non-interactive \
