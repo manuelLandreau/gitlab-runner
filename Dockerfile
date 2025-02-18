@@ -36,7 +36,7 @@ gitlab-runner register \
   --description "Docker Runner with Render.com support" \
   --tag-list "docker,render,dind,shared" \
   --run-untagged="true" \
-  --locked="false" \n\
+  --locked="false &" \n\
 exec python3 -m http.server 8080' > /entrypoint.sh && \
   chmod +x /entrypoint.sh
 
