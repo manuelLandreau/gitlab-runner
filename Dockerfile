@@ -67,4 +67,4 @@ check_interval = 0 \n\
 ENTRYPOINT ["/entrypoint.sh"]
 
 # Default command
-CMD ["run", "--user=gitlab-runner", "--working-directory=/home/gitlab-runner"]
+CMD ["gitlab-runner", "run", "--user=gitlab-runner", "--working-directory=/home/gitlab-runner"]
