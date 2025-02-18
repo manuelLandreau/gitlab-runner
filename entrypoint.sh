@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -e
 
-sudo groupadd docker
-sudo gpasswd -a gitlab-runner docker
-sudo service docker restart
+groupadd docker
+gpasswd -a gitlab-runner docker
+service docker restart
 
 # Register the runner (non-interactive)
 gitlab-runner register --non-interactive \
