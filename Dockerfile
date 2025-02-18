@@ -1,43 +1,18 @@
-FROM gitlab/gitlab-runner:latest
+# Use Docker's official docker-in-docker (dind) image
+FROM docker:23.0.1-dind
 
-ARG TOKEN
+# Set the GitLab Runner version you want to install
+ARG GITLAB_RUNNER_VERSION="15.9.0"
 
-# Install required packages
-RUN apt-get update && apt-get install -y \
-    curl \
-    python3 \
-    jq \
-    && rm -rf /var/lib/apt/lists/*
+# Install GitLab Runner
+RUN apk add --no-cache curl bash && \
+    curl -L "https://gitlab-runner-downloads.s3.amazonaws.com/${GITLAB_RUNNER_VERSION}/binaries/gitlab-runner-linux-amd64" \
+         -o /usr/local/bin/gitlab-runner && \
+    chmod +x /usr/local/bin/gitlab-runner
 
-# Install Docker
-RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
-    sh get-docker.sh && \
-    rm get-docker.sh
+# Copy the custom entrypoint script into the container
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Create directory for GitLab Runner configuration
-RUN mkdir -p /etc/gitlab-runner
-
-RUN echo "$TOKEN"
-
-ENV GITLAB_RUNNER_TOKEN="$TOKEN"
-
-# Create registration script
-RUN gitlab-runner register \
-  --non-interactive \
-  --url "https://gitlab.com" \
-  --registration-token "${GITLAB_RUNNER_TOKEN}" \
-  --executor docker \
-  --docker-image docker:stable \
-  --docker-privileged \
-  --docker-volumes "/var/run/docker.sock:/var/run/docker.sock" \
-  --docker-volumes "/cache" \
-  --description "Docker Runner with Render.com support" \
-  --tag-list "docker,render,dind,shared" \
-  --run-untagged="true" \
-  --locked="false"
-
-# Example config.toml content
-RUN exec gitlab-runner run --user=gitlab-runner --working-directory=/home/gitlab-runner &
-
-# Default command
-CMD ["python3", "-m", "http.server", "8080"]
+# By default, run Docker in Docker alongside GitLab Runner
+ENTRYPOINT ["/entrypoint.sh"]
