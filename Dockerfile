@@ -14,6 +14,8 @@ RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
     sh get-docker.sh && \
     rm get-docker.sh
 
+RUN usermod -aG docker gitlab-runner
+
 # Create directory for GitLab Runner configuration
 RUN mkdir -p /etc/gitlab-runner
 
