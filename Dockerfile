@@ -24,7 +24,7 @@ RUN gitlab-runner register \
   --non-interactive \
   --url "https://gitlab.com" \
   --registration-token $TOKEN \
-  ---executor docker \
+  --executor docker \
   --description "My Docker Runner" \
   --docker-image "docker:24.0.6" \
   --docker-privileged \
