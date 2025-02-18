@@ -7,17 +7,15 @@ RUN apt-get update && apt-get install -y \
     curl \
     python3 \
     jq \
+    docker.io \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Docker
-RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
-    sh get-docker.sh && \
-    rm get-docker.sh
-
-RUN usermod -aG docker gitlab-runner
+RUN usermod -aG docker root
 
 # Create directory for GitLab Runner configuration
 RUN mkdir -p /etc/gitlab-runner
+
+RUN dockerd &
 
 COPY entrypoint.sh /entrypoint.sh
 
