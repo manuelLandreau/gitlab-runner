@@ -1,16 +1,16 @@
-FROM gitlab/gitlab-runner:latest
+FROM docker:dind
 
 ARG TOKEN
 
 # Install required packages
-RUN apt-get update && apt-get install -y \
+RUN apk add \
     curl \
+    gitlab-runner \
     python3 \
     jq \
-    docker.io \
     && rm -rf /var/lib/apt/lists/*
 
-RUN usermod -aG docker root
+# RUN usermod -aG docker root
 
 # Create directory for GitLab Runner configuration
 RUN mkdir -p /etc/gitlab-runner
