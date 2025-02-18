@@ -30,7 +30,7 @@ gitlab-runner register --non-interactive \
     --locked="false"
 
 # Start the GitLab Runner service
-gitlab-runner run --user=gitlab-runner --docker-privileged &
+gitlab-runner run --user=gitlab-runner &
 
 
 # Dummy HTTP server to prevent Render from shutting down
