@@ -14,10 +14,6 @@ RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
 # Create directory for GitLab Runner configuration
 RUN mkdir -p /etc/gitlab-runner
 
-RUN touch config.toml
-
-# Create configuration file
-COPY config.toml /etc/gitlab-runner/
 
 ENV GITLAB_RUNNER_TOKEN="$TOKEN"
 ENV GITLAB_URL="https://gitlab.com"
