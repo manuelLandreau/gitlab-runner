@@ -1,18 +1,35 @@
-# Use Docker's official docker-in-docker (dind) image
-FROM docker:23.0.1-dind
+FROM gitlab/gitlab-runner:latest
 
-# Set the GitLab Runner version you want to install
 ARG TOKEN
 
-# Install GitLab Runner
-RUN apk add --no-cache curl bash python3 && \
-    curl -L "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64" \
-         -o /usr/local/bin/gitlab-runner && \
-    chmod +x /usr/local/bin/gitlab-runner
+# Install required packages
+RUN apt-get update && apt-get install -y \
+    curl \
+    python3 \
+    jq \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy the custom entrypoint script into the container
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# Install Docker
+RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
+    sh get-docker.sh && \
+    rm get-docker.sh
 
-# By default, run Docker in Docker alongside GitLab Runner
-ENTRYPOINT ["/entrypoint.sh"]
+# Create directory for GitLab Runner configuration
+RUN mkdir -p /etc/gitlab-runner
+
+# Create registration script
+RUN gitlab-runner register \
+  --non-interactive \
+  --url "https://gitlab.com" \
+  --registration-token $TOKEN \
+  ---executor docker \
+  --description "My Docker Runner" \
+  --docker-image "docker:24.0.6" \
+  --docker-privileged \
+  --docker-volumes "/certs/client"
+
+RUN gitlab-runner run &
+
+
+# Default command
+CMD ["python3", "-m", "http.server", "8080"]
